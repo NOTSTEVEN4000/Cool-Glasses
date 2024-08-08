@@ -1,0 +1,100 @@
+<div class="pt-16">
+    <div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 w-full px-5">
+            <div class="group w-full rounded-lg bg-[#673ab7] p-5 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_#2196f3]">
+                <p class="text-white text-2xl">{{listaProductos.length}}</p>
+                <p class="text-white text-sm">Productos registrados</p>
+                <div class="group-hover:opacity-100 absolute right-[10%] top-[50%] translate-y-[-50%] opacity-20 transition group-hover:scale-110 duration-300">
+                    <i class="fa-solid fa-bag-shopping" style="color: white; font-size: 40px;"></i>
+                </div>
+            </div>
+            <div class="group w-full rounded-lg bg-[rgb(41,49,79)] p-5 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_#3a9ab7]">
+                <p class="text-white text-2xl">{{listaUsuarios.length}}</p>
+                <p class="text-white text-sm">Usuarios</p>
+                <div class="group-hover:opacity-100 absolute right-[10%] top-[50%] translate-y-[-50%] opacity-20 transition group-hover:scale-110 duration-300">
+                    <i class="fa-solid fa-user-group" style="color: white; font-size: 40px;"></i>
+                </div>
+            </div>
+            <div class="group w-full rounded-lg bg-[rgb(48,154,158)] p-5 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_rgb(244,67,54)]">
+                <p class="text-white text-2xl">{{listaVentas.length}}</p>
+                <p class="text-white text-sm">Ventas</p>
+                <div class="group-hover:opacity-100 absolute right-[10%] top-[50%] translate-y-[-50%] opacity-20 transition group-hover:scale-110 duration-300">
+                    <i class="fa-solid fa-user-group" style="color: white; font-size: 40px;"></i>
+                </div>
+            </div>
+            <div class="group w-full rounded-lg bg-[rgb(32,50,109)] p-5 transition relative duration-300 cursor-pointer hover:translate-y-[3px] hover:shadow-[0_-8px_0px_0px_#b9bb35]">
+                <p class="text-white text-2xl">{{resenas.length}}</p>
+                <p class="text-white text-sm">Reseñas</p>
+                <div class="group-hover:opacity-100 absolute right-[10%] top-[50%] translate-y-[-50%] opacity-20 transition group-hover:scale-110 duration-300">
+                    <i class="fa-solid fa-user-group" style="color: white; font-size: 40px;"></i>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-start px-5 mb-5 mt-5">
+            <button (click)="generatePDF()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Imprimir Reporte
+            </button>
+        </div>
+
+        <!-- Gráficos -->
+        <div #chartsContainer>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 xl:px-16">
+                <!--Usuarios charts-->
+                <div class="bg-white p-5 rounded-lg shadow-2xl text-black">
+                    <h3 class="text-center mb-4 font-semibold">Usuarios clientes/administrador</h3>
+                    <canvas baseChart 
+                            [data]="usuariosData" 
+                            [labels]="usuariosLabels" 
+                            [type]="'pie'">
+                    </canvas>
+                </div>
+                <!--Productos charts-->
+                <div class="bg-white p-5 rounded-lg shadow-2xl">
+                    <h3 class="text-center mb-4 font-semibold text-black">Productos por
+                        <select [(ngModel)]="selectedFilter2" (change)="setProductosChart()" 
+                        class="w-36 font-medium font-mono text-center text-black">
+                            <option value="categoria">Categoría</option>
+                            <option value="genero">Género</option>
+                            <option value="stock">Stock</option>
+                            <option value="estado">Estado</option>
+                        </select>
+                    </h3>
+                    <canvas baseChart [data]="productosData" [labels]="productosLabels" [type]="'doughnut'">
+                    </canvas>
+                </div>
+                <!--Resenas por estrellas charts-->
+                <div class="bg-white p-5 rounded-lg shadow-2xl">
+                    <h3 class="text-center mb-4 font-semibold text-black">Reseñas por estrella</h3>
+                    <select [(ngModel)]="selectedResenasChartType" (change)="setResenasChart()" 
+                    class="w-36 font-medium font-mono text-center text-black">
+                      <option value="line">Line</option>
+                      <option value="bar">Bar</option>
+                      <option value="radar">Radar</option>
+                      <option value="polarArea">Polar Area</option>
+                      <option value="pie">Pie</option>
+                      <option value="doughnut">Doughnut</option>
+                    </select>
+                    <canvas baseChart 
+                            [data]="resenasData" 
+                            [labels]="resenasLabels" 
+                            [type]="selectedResenasChartType">
+                    </canvas>
+                </div>
+            </div>
+            <!--Ventas dias,mes,ano charts-->
+            <div class="mt-10 xl:px-16">
+                <div class="bg-white p-5 rounded-lg shadow-2xl text-black">
+                    <h3 class="text-center mb-4 font-semibold">Ventas por dia, mes y año</h3>
+                    <div class="text-center mb-4">
+                        <select [(ngModel)]="selectedFilter" (change)="setVentasChart()" class="w-36 font-medium font-mono text-center">
+                            <option value="day">Día</option>
+                            <option value="month" selected>Mes</option>
+                            <option value="year">Año</option>
+                        </select>
+                    </div>
+                    <canvas baseChart [data]="ventasData" [labels]="ventasLabels" [options]="ventasOptions" [type]="'bar'"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

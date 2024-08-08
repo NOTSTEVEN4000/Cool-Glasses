@@ -1,0 +1,129 @@
+<div class="table-container">
+    <div class="p-4 border-gray-300 rounded-3xl dark:border-gray-700 mt-14">
+      <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700 rounded-t-3xl">
+        <div class="w-full mb-1">
+          <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-800">
+            <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Comprobantes por usuarios</h1>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div class="overflow-x-auto">
+          <div class="inline-block min-w-full align-middle">
+            <div class="overflow-hidden shadow">
+              <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
+                <thead class="bg-gray-100 dark:bg-gray-700 ">
+                  <tr>
+                    <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">#</th>
+                    <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">Nombre</th>
+                    <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">Apellido</th>
+                    <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">Correo</th>
+                    <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">Teléfono</th>
+                    <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">Dirección</th>
+                    <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">Ciudad</th>
+                    <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">Provincia</th>
+                    <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">País</th>
+                    <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">Revisar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="listaUsuarios.length === 0" class="border-b bg-gray-300 dark:bg-gray-50 dark:border-gray-700 text-center text-red-500 font-semibold">
+                    <td colspan="10" class="px-6 py-4">Usuario no encontrado</td>
+                  </tr>
+                  <tr *ngFor="let usuario of listaUsuarios; let i = index" class="bg-white border-b dark:bg-gray-50 dark:border-gray-700 text-center text-black font-medium">
+                    <th scope="row" class="px-3 py-4 font-medium">{{ i + 1 }}</th>
+                    <td class="px-6 py-4">{{usuario.nombre}}</td>
+                    <td class="px-6 py-4">{{usuario.apellido}}</td>
+                    <td class="px-6 py-4">{{usuario.correo}}</td>
+                    <td class="px-6 py-4">{{usuario.telefono}}</td>
+                    <td class="px-6 py-4">{{usuario.direccion}}</td>
+                    <td class="px-6 py-4">{{usuario.ciudad}}</td>
+                    <td class="px-6 py-4">{{usuario.provincia}}</td>
+                    <td class="px-6 py-4">{{usuario.pais}}</td>
+                    <td class="text-center">
+                      <div class="btn-group p-1" role="group">
+                        <button (click)="viewComprobantes(usuario)" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full">
+                          <i class="fas fa-eye fa-md"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<!-- Comprobantes Modal -->
+<div *ngIf="showComprobanteModal"
+    class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="modal-content bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-3/4 lg:w-2/3">
+        <h2 class="text-2xl font-semibold mb-4 font-mono">Comprobantes de {{ selectedUsuario?.nombre }} {{ selectedUsuario?.apellido }}</h2>
+        <div *ngIf="comprobantes.length === 0" class="text-red-500 font-semibold font-mono">No se encontraron comprobantes para este usuario.
+        </div>
+        <div *ngIf="comprobantes.length > 0" class="overflow-x-auto">
+            <div *ngFor="let comprobante of comprobantes; let i = index" class="mb-2 text-black">
+                <div (click)="toggleComprobante(i)" class="cursor-pointer text-white flex justify-between items-center bg-blue-600 hover:bg-blue-800 rounded-lg p-3">
+                    <h5 class="font-bold">N° de Comprobante: <span class="font-normal">{{
+                            comprobante.id_comprobante_detalle }}</span></h5>
+                    <h5 class="font-bold">Fecha: <span class="font-normal">{{ comprobante.fecha_venta | date:
+                            'dd/MM/yyyy' }}</span></h5>
+                    <span [ngClass]="{'rotate-180': expandedComprobante === i}">🔻</span>
+                </div>
+                <div *ngIf="expandedComprobante === i" class="mt-4">
+                    <table class="table-auto w-full border-collapse border border-black factura">
+                        <thead>
+                            <tr class="border-t-4 border-b-4 border-black">
+                                <th class="px-4 py-2 border border-black">Código</th>
+                                <th class="px-4 py-2 border border-black">Nombre del producto</th>
+                                <th class="px-4 py-2 border border-black text-center">Cantidad</th>
+                                <th class="px-4 py-2 border border-black text-center">Precio Unitario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let detalle of comprobante.carrito.producto" class="border-b border-black">
+                                <td class="border px-4 py-2 border-black">{{ detalle.codUnico }}</td>
+                                <td class="border px-4 py-2 border-black">{{ detalle.nombre }}</td>
+                                <td class="border text-center px-4 py-2 border-black">{{ detalle.cantidad_seleccionada }}
+                                </td>
+                                <td class="border text-center px-4 py-2 border-black">{{ detalle.precio }}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="border-t-4 border-b-4 border-black">
+                            <tr>
+                                <th class="px-4 py-2 border-black" colspan="2"></th>
+                                <th class="text-center px-4 py-2 border-black">Subtotal:</th>
+                                <th class="text-center px-4 py-2 font-semibold border-black">{{ comprobante.subtotal |
+                                    number:'1.2-2' }}</th>
+                            </tr>
+                            <tr>
+                                <th class="px-4 py-2 border-black" colspan="2"></th>
+                                <th class="text-center px-4 py-2 border-black">IVA:</th>
+                                <th class="text-center px-4 py-2 font-semibold border-black">{{ comprobante.iva |
+                                    number:'1.2-2' }}</th>
+                            </tr>
+                            <tr>
+                                <th class="px-4 py-2 border-black" colspan="2"></th>
+                                <th class="text-center px-4 py-2 border-black">Descuento:</th>
+                                <th class="text-center px-4 py-2 font-semibold border-black">{{ comprobante.descuento |
+                                    number:'1.2-2' }}</th>
+                            </tr>
+                            <tr>
+                                <th class="px-4 py-2 border-black" colspan="2"></th>
+                                <th class="text-center px-4 py-2 border-black">Total Factura:</th>
+                                <th class="text-center px-4 py-2 font-extrabold border-black">{{ comprobante.total }}</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4 text-right">
+            <button (click)="closeComprobanteModal()"
+                class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded">Cerrar</button>
+        </div>
+    </div>
+</div>

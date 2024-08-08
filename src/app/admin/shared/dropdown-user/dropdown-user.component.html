@@ -1,0 +1,42 @@
+<!-- sidebar.component.html -->
+<div class="relative inline-block text-left">
+    <div>
+        <button type="button" (click)="toggleDropdown()"
+            class="flex items-center text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+            aria-expanded="true" aria-haspopup="true">
+            <span class="sr-only">Open user menu</span>
+            <img class="w-10 h-10 rounded-full" [src]="profileImageUrl">
+        </button>
+    </div>
+    <div *ngIf="isDropdownOpen"
+        class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
+        <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+            <div class="flex items-center">
+                <img class="w-10 h-10 rounded-full" [src]="profileImageUrl">
+                <div class="ml-3">
+                    <p class="text-sm font-medium text-black dark:text-white">{{usuario.nombre + ' ' + usuario.apellido}}</p>
+                    <p class="text-xs font-medium text-gray-500 dark:text-gray-400">{{usuario.correo}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="py-1">
+            <a routerLink="/dashboard/miperfil"
+                class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">Mi
+                perfil</a>
+            
+        </div>
+        <div class="py-2 px-4 border-t border-gray-200 dark:border-gray-700">
+            <div class="flex items-center justify-between mt-4">
+                <p class="text-sm text-gray-500 dark:text-gray-400">Modo</p>
+                <div>
+                    <button (click)="setMode('light')" class="mr-2 text-sm px-2 py-1 rounded-lg"
+                        [ngClass]="{'bg-gray-300': mode === 'light'}">
+                        <i class="fa-solid fa-sun"></i> Claro</button>
+                    <button (click)="setMode('dark')" class="text-sm px-2 py-1 rounded-lg text-black dark:text-white"
+                        [ngClass]="{'bg-gray-500': mode === 'dark'}"><i class="fa-solid fa-moon"
+                            style="color: #4508eb;"></i> Oscuro</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

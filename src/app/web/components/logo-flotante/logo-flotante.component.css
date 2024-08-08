@@ -1,0 +1,21 @@
+.Icono {
+  height: 2000px;
+}
+
+img.logo {
+  position: fixed;
+  width: 65px;
+  bottom: 75px;
+  left: 42px;
+  /* Cambiado de right a left para posicionar a la izquierda */
+  color: #FFF;
+  border-radius: 50px;
+  text-align: center;
+  font-size: 30px;
+  z-index: 100;
+  display: none;
+}
+
+#appear.active {
+  display: inline;
+}

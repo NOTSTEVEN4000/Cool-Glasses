@@ -1,0 +1,216 @@
+<div class="table-container">
+    <div class="p-4 border-gray-300 rounded-3xl dark:border-gray-700 mt-14">
+        <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 
+            lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700 rounded-t-3xl">
+            <div class="w-full mb-1">
+                <div class="mb-4">
+                    <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Lentes o Glasses</h1>
+                </div>
+                <div
+                    class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-800">
+                    <button (click)="openRegistrarModal()"
+                        class="text-white bg-green-800 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+                        type="button">
+                        Nuevo Producto
+                    </button>
+                    <div class="relative mt-3 w-64 md:w-72">
+                        <input type="text" id="search" name="search" [(ngModel)]="searchTerm"
+                            (ngModelChange)="filterProducts()"
+                            class="block w-full pl-10 pr-3 py-2 rounded-full bg-gray-700 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Buscador de productos">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg class="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M12.9 14.32a8 8 0 111.414-1.414l5.385 5.384a1 1 0 11-1.414 1.414l-5.385-5.384zM14 8a6 6 0 11-12 0 6 6 0 0112 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <ul *ngIf="autocompleteSuggestions.length > 0"
+                            class="absolute z-10 bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                            <li *ngFor="let suggestion of autocompleteSuggestions"
+                                (click)="selectSuggestion(suggestion)"
+                                class="text-gray-900 cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-gray-200">
+                                {{ suggestion }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col">
+            <div class="overflow-x-auto">
+                <div class="inline-block min-w-full align-middle">
+                    <div class="overflow-hidden shadow">
+                        <table style="display: 10%;"
+                            class=" min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
+                            <thead class="bg-gray-100 dark:bg-gray-700 ">
+                                <tr>
+                                    <th scope="col"
+                                        class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                                        #
+                                    </th>
+                                    <th scope="col"
+                                        class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                                        Código
+                                    </th>
+                                    <th scope="col"
+                                        class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                                        Imagen
+                                    </th>
+                                    <th scope="col"
+                                        class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                                        Nombre del producto
+                                    </th>
+                                    <th scope="col"
+                                        class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                                        Categoria
+                                    </th>
+
+                                    <th scope="col"
+                                        class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                                        Genero
+                                    </th>
+                                    <th scope="col"
+                                        class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                                        Precio
+                                    </th>
+                                    <th scope="col"
+                                        class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                                        Descuento
+                                    </th>
+                                    <th scope="col"
+                                    class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                                    QR Code
+                                  </th>
+
+                                    <th scope="col"
+                                        class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                                        Estado
+                                    </th>
+                                    <th scope="col"
+                                        class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+                                        Acciones
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="listaProductos.length === 0"
+                                    class="border-b bg-gray-300 dark:bg-gray-50 dark:border-gray-700 text-center text-red-500 font-semibold">
+                                    <td colspan="11" class="px-6 py-4">Producto no encontrado</td>
+                                </tr>
+                                <tr *ngFor="let producto of listaProductos; let i = index"
+                                    class=" border-b bg-gray-300 dark:bg-gray-50 dark:border-gray-700 text-center text-black font-medium">
+                                    <th scope="row" class="px-3 py-4 font-medium">{{ i + 1 }}</th>
+                                    <td class="px-6 py-4">{{producto.codUnico}}</td>
+                                    <td class="relative inline-flex items-center cursor-pointer zoom-container">
+                                        <img [src]="producto.imagenes[0]" alt="Imagen del producto"
+                                            class="h-16 w-28 transparent-bg zoom-image ">
+                                    </td>
+
+                                    <td class="px-6 py-4">{{producto.nombre}}</td>
+                                    <td class="px-6 py-4">{{producto.categoria}}</td>
+                                    <td class="px-6 py-4">{{producto.genero}}</td>
+                                    <td class="px-6 py-4">{{producto.precio}}</td>
+                                    <td class="px-6 py-4">{{producto.descuento}} %</td>
+                                    <!-- Añadir la celda para el QR -->
+                                    <td class="px-6 py-4">
+                                        <div (click)="showLargeQR(producto.codUnico)" class="qr-wrapper">
+                                          <qrcode [qrdata]="producto.codUnico" [width]="80" [errorCorrectionLevel]="'M'"></qrcode>
+                                        </div>
+                                      </td>
+
+                                    <td class="px-6 py-4">
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" [checked]="producto.estado === 'activo'"
+                                                (change)="toggleEstado(producto)" class="sr-only peer">
+                                            <div
+                                                class="group peer ring-0 bg-rose-400 rounded-full outline-none duration-300 after:duration-300 w-14 h-8 shadow-md
+                                                 peer-checked:bg-emerald-500 peer-focus:outline-none after:content-['✖️'] 
+                                                 after:rounded-full after:absolute after:bg-gray-50 after:outline-none after:h-6 
+                                                 after:w-7 after:top-1 after:right-6 after:flex after:justify-center after:items-center 
+                                                 peer-checked:after:translate-x-6 peer-checked:after:content-['✔️'] peer-hover:after:scale-95">
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="btn-group p-1" role="group">
+                                            <button (click)="openModificarModal()" (click)="enviardata(producto)"
+                                                class="bg-blue-300 hover:bg-blue-200 text-white font-bold py-1 px-2 rounded-full me-2">
+                                                <i class="fas fa-pencil-alt fa-md" style="color: #0B1739;"></i>
+                                            </button>
+                                            <button (click)="eliminarProducto(producto.id!)"
+                                                class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full me-2">
+                                                <i class="fas fa-trash fa-md"></i>
+                                            </button>
+                                            <button (click)="openViewModal(producto)"
+                                                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full">
+                                                <i class="fas fa-eye fa-md"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Registrar/Modificar producto -->
+<div *ngIf="showModal" class="modal-overlay">
+    <div class="modal-content">
+        <app-registro-producto *ngIf="isRegistrar" (closeModal)="closeModal()"></app-registro-producto>
+        <app-modificar-producto *ngIf="!isRegistrar" (closeModal)="closeModal()"></app-modificar-producto>
+    </div>
+</div>
+
+<!-- Modal de Vista de producto -->
+<div *ngIf="showViewModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="bg-white p-6 rounded-lg flex flex-col md:flex-row">
+            <!-- Imagen principal del producto -->
+            <div class="w-full md:w-96 shadow-lg">
+                <img [src]="currentImage" alt="Imagen del producto" class="w-full h-80 rounded-lg img-fluid">
+                <div class="flex mt-4 space-x-2 justify-center">
+                    <img *ngFor="let img of selectedProduct?.imagenes" [src]="img" alt="Imagen del producto"
+                        class="w-16 h-16 object-fill rounded-lg cursor-pointer"
+                        (click)="changeImage(img)">
+                </div>
+            </div>
+            <!-- Detalles del producto -->
+            <div class="w-full md:w-1/2 md:pl-6 mt-4 md:mt-0 font-mono">
+                <h2 class="text-xl mb-2 font-extrabold">{{ selectedProduct?.nombre }}</h2>
+                <p class="text-gray-600 mb-4">{{ selectedProduct?.descripcion }}</p>
+                <h3 class="font-bold mb-2">Especificaciones</h3>
+                <ul class="list-disc list-inside text-gray-600">
+                    <li><strong>Categoría:</strong> {{ selectedProduct?.categoria }}</li>
+                    <li><strong>Género:</strong> {{ selectedProduct?.genero }}</li>
+                    <li><strong>Precio:</strong> {{ selectedProduct?.precio | currency }}</li>
+                    <li><strong>Descuento:</strong> {{ selectedProduct?.descuento }} %</li>
+                    <li><strong>Color:</strong> {{ selectedProduct?.caracteristicas['color']}}</li>
+                    <li><strong>Material:</strong> {{ selectedProduct?.caracteristicas['material']}}</li>
+                    <li><strong>Tipo:</strong> {{ selectedProduct?.caracteristicas['tipo']}}</li>
+                    <li><strong>Tamaño:</strong> {{ selectedProduct?.caracteristicas['tamano']}}</li>
+                    <li><strong>Modelo:</strong> {{ selectedProduct?.caracteristicas['modelo']}}</li>
+                    <li><strong>Estado:</strong> {{ selectedProduct?.estado }}</li>
+                    <li><strong>Stock:</strong> {{ selectedProduct?.stock }}</li>
+                    <li><strong>Oferta:</strong> {{ selectedProduct?.oferta ? 'Sí' : 'No' }}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="mt-4 text-right">
+            <button (click)="closeViewModal()"
+                class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded">
+                Cerrar
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Contenedor del QR grande -->
+<div *ngIf="largeQRData" class="large-qr-overlay" (click)="hideLargeQR()">
+    <div class="large-qr-container">
+      <qrcode [qrdata]="largeQRData" [width]="300" [errorCorrectionLevel]="'M'"></qrcode>
+    </div>
+  </div>

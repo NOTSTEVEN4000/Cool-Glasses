@@ -1,0 +1,65 @@
+<div class="table-container">
+    <div class="p-4 border-gray-300 rounded-3xl dark:border-gray-700 mt-14">
+      <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700 rounded-t-3xl">
+        <div class="w-full mb-1">
+          <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-800">
+            <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Reseñas globales</h1>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div class="overflow-x-auto">
+          <div class="inline-block min-w-full align-middle">
+            <div class="overflow-hidden shadow">
+              <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
+                <thead class="bg-gray-100 dark:bg-gray-700">
+                  <tr>
+                    <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                      #
+                    </th>
+                    <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                      Número de estrellas
+                    </th>
+                    <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                      Comentario
+                    </th>
+                    <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+                      Acciones
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let resena of resenas let i = index" class="bg-white border-b dark:bg-gray-50 dark:border-gray-700 text-center text-black font-medium">
+                    <th scope="row" class="px-3 py-4 font-medium">{{ i + 1 }}</th>
+                    <td>
+                      <div class="flex items-center justify-center">
+                        <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+                          <svg *ngIf="resena.estrella >= star" class="w-6 h-6 ms-2 text-yellow-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                          </svg>
+                          <svg *ngIf="resena.estrella < star" class="w-6 h-6 ms-2 text-gray-300 dark:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                          </svg>
+                        </ng-container>
+                      </div>
+                    </td>
+                    <td class="px-24 py-4">{{ resena.comentario }}</td>
+                    <td class="text-center">
+                      <div class="btn-group p-1" role="group">
+                        <button (click)="deleteResena(resena.idResena)"
+                        class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full">
+                        <i class="fas fa-trash fa-lg"></i>
+                    </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  

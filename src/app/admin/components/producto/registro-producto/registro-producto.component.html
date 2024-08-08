@@ -1,0 +1,251 @@
+<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-auto">
+    <div class="bg-white p-6 rounded shadow-md w-full max-w-xl mt-10">
+        <h2 class="text-xl font-bold mb-4 text-black">Insertar Producto</h2>
+        <form [formGroup]="productoForm" (ngSubmit)="GuardarProducto()">
+            <div class="grid grid-cols-2 md:grid-cols-2 gap-4">
+
+                <!-- Nombre de producto -->
+                <div class="relative mb-1" [ngClass]="{'mb-2': isFieldInvalid('nombre')}">
+                    <input type="text" id="nombre" formControlName="nombre"
+                        class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none focus:outline-none focus:ring-0 peer"
+                        [ngClass]="{'border-gray-300': !isFieldInvalid('nombre'), 'border-red-600': isFieldInvalid('nombre')}"
+                        placeholder=" " required>
+                    <label for="nombre"
+                        class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Nombre
+                        de producto</label>
+                    <p *ngIf="isFieldInvalid('nombre')" class="mt-0 text-xs text-red-600 dark:text-red-400">
+                        <span class="font-medium">Llene este campo</span>
+                    </p>
+                </div>
+                <!-- Precio -->
+                <div class="relative mb-1" [ngClass]="{'mb-2': isFieldInvalid('precio')}">
+                    <input type="number" id="precio" formControlName="precio"
+                        class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none focus:outline-none focus:ring-0 peer"
+                        [ngClass]="{'border-gray-300': !isFieldInvalid('precio'), 'border-red-600': isFieldInvalid('precio')}"
+                        placeholder=" " required>
+                    <label for="precio"
+                        class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Precio</label>
+                    <p *ngIf="isFieldInvalid('precio')" class="mt-0 text-xs text-red-600 dark:text-red-400">
+                        <span class="font-medium">Llene este campo</span>
+                    </p>
+                </div>
+                <!-- Categoría -->
+                <div class="relative mb-1" [ngClass]="{'mb-2': isFieldInvalid('categoria')}">
+                    <select id="categoria" formControlName="categoria"
+                        class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none focus:outline-none focus:ring-0 peer"
+                        [ngClass]="{'border-gray-300': !isFieldInvalid('categoria'), 'border-red-600': isFieldInvalid('categoria')}"
+                        required>
+                        <option value="" disabled selected>Seleccione una categoría</option>
+                        <option value="lentes de sol">Lentes de sol</option>
+                        <option value="lentes bifocales">Lentes bifocales</option>
+                        <option value="transitions">Transitions</option>
+                        <option value="filtro de luz">Filtro de luz</option>
+                    </select>
+                    <label for="categoria"
+                        class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Categoría</label>
+                    <p *ngIf="isFieldInvalid('categoria')" class="mt-0 text-xs text-red-600 dark:text-red-400">
+                        <span class="font-medium">Llene este campo</span>
+                    </p>
+                </div>
+                <!-- Género -->
+                <div class="relative mb-1" [ngClass]="{'mb-2': isFieldInvalid('genero')}">
+                    <select id="genero" formControlName="genero"
+                        class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none focus:outline-none focus:ring-0 peer"
+                        [ngClass]="{'border-gray-300': !isFieldInvalid('genero'), 'border-red-600': isFieldInvalid('genero')}"
+                        required>
+                        <option value="" disabled selected>Seleccione un Género</option>
+                        <option value="hombre">Hombre</option>
+                        <option value="mujer">Mujer</option>
+                        <option value="nino">Niño</option>
+                    </select>
+                    <label for="genero"
+                        class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Género</label>
+                    <p *ngIf="isFieldInvalid('genero')" class="mt-0 text-xs text-red-600 dark:text-red-400">
+                        <span class="font-medium">Llene este campo</span>
+                    </p>
+                </div>
+                <!-- En oferta -->
+                <div class="relative mb-1" [ngClass]="{'mb-2': isFieldInvalid('oferta')}">
+                    <select id="oferta" formControlName="oferta"
+                        class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none focus:outline-none focus:ring-0 peer"
+                        [ngClass]="{'border-gray-300': !isFieldInvalid('oferta'), 'border-red-600': isFieldInvalid('oferta')}"
+                        required>
+                        <option value="" disabled selected>¿En oferta?</option>
+                        <option value="true">Sí</option>
+                        <option value="false">No</option>
+                    </select>
+                    <label for="oferta"
+                        class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">¿En
+                        oferta?</label>
+                    <p *ngIf="isFieldInvalid('oferta')" class="mt-0 text-xs text-red-600 dark:text-red-400">
+                        <span class="font-medium">Llene este campo</span>
+                    </p>
+                </div>
+
+                <!-- Descuento -->
+                <div class="relative mb-1" *ngIf="productoForm.get('oferta')?.value === 'true'"
+                    [ngClass]="{'mb-2': isFieldInvalid('descuento')}">
+                    <select id="descuento" formControlName="descuento"
+                        class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none focus:outline-none focus:ring-0 peer"
+                        [ngClass]="{'border-gray-300': !isFieldInvalid('descuento'), 'border-red-600': isFieldInvalid('descuento')}"
+                        required>
+                        <option value=" " disabled selected>Seleccione un descuento</option>
+                        <option *ngFor="let percent of discountOptions" [value]="percent">{{ percent }}%</option>
+                    </select>
+                    <label for="descuento"
+                        class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Descuento</label>
+                    <p *ngIf="isFieldInvalid('descuento')" class="mt-0 text-xs text-red-600 dark:text-red-400">
+                        <span class="font-medium">Llene este campo</span>
+                    </p>
+                </div>
+
+                <!-- Stock -->
+                <div class="relative mb-1" [ngClass]="{'mb-2': isFieldInvalid('stock')}">
+                    <input type="number" id="stock" formControlName="stock"
+                        class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none focus:outline-none focus:ring-0 peer"
+                        [ngClass]="{'border-gray-300': !isFieldInvalid('stock'), 'border-red-600': isFieldInvalid('stock')}"
+                        placeholder=" " required>
+                    <label for="stock"
+                        class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Stock</label>
+                    <p *ngIf="isFieldInvalid('stock')" class="mt-0 text-xs text-red-600 dark:text-red-400">
+                        <span class="font-medium">Llene este campo</span>
+                    </p>
+                </div>
+
+                <!-- Características del producto -->
+                <div class="col-span-2 md:col-span-2">
+                    <h3 class="text-lg font-semibold mb-2">Características del producto</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <!-- Color -->
+                        <div class="relative mb-1" [ngClass]="{'mb-2': isFieldInvalid('color')}">
+                            <select id="color" formControlName="color"
+                                class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none focus:outline-none focus:ring-0 peer"
+                                [ngClass]="{'border-gray-300': !isFieldInvalid('color'), 'border-red-600': isFieldInvalid('color')}"
+                                required>
+                                <option value="" disabled selected>Seleccionar color</option>
+                                <option *ngFor="let color of predefinedColors" [value]="color.name">{{ color.name }}
+                                </option>
+                            </select>
+                            <label for="color"
+                                class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Color</label>
+                            <p *ngIf="isFieldInvalid('color')" class="mt-0 text-xs text-red-600 dark:text-red-400">
+                                <span class="font-medium">Llene este campo</span>
+                            </p>
+                        </div>
+
+                        <!-- Material -->
+                        <div class="relative mb-1" [ngClass]="{'mb-2': isFieldInvalid('material')}">
+                            <input type="text" id="material" formControlName="material"
+                                class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none focus:outline-none focus:ring-0 peer"
+                                [ngClass]="{'border-gray-300': !isFieldInvalid('material'), 'border-red-600': isFieldInvalid('material')}"
+                                placeholder=" " required>
+                            <label for="material"
+                                class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Material</label>
+                            <p *ngIf="isFieldInvalid('material')" class="mt-0 text-xs text-red-600 dark:text-red-400">
+                                <span class="font-medium">Llene este campo</span>
+                            </p>
+                        </div>
+                        <!-- Tipo -->
+                        <div class="relative mb-1" [ngClass]="{'mb-2': isFieldInvalid('tipo')}">
+                            <input type="text" id="tipo" formControlName="tipo"
+                                class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none focus:outline-none focus:ring-0 peer"
+                                [ngClass]="{'border-gray-300': !isFieldInvalid('tipo'), 'border-red-600': isFieldInvalid('tipo')}"
+                                placeholder=" " required>
+                            <label for="tipo"
+                                class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Tipo</label>
+                            <p *ngIf="isFieldInvalid('tipo')" class="mt-0 text-xs text-red-600 dark:text-red-400">
+                                <span class="font-medium">Llene este campo</span>
+                            </p>
+                        </div>
+                        <!-- Tamaño -->
+                        <div class="relative mb-1" [ngClass]="{'mb-2': isFieldInvalid('tamano')}">
+                            <input type="text" id="tamano" formControlName="tamano"
+                                class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none focus:outline-none focus:ring-0 peer"
+                                [ngClass]="{'border-gray-300': !isFieldInvalid('tamano'), 'border-red-600': isFieldInvalid('tamano')}"
+                                placeholder=" " required>
+                            <label for="tamano"
+                                class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Tamaño</label>
+                            <p *ngIf="isFieldInvalid('tamano')" class="mt-0 text-xs text-red-600 dark:text-red-400">
+                                <span class="font-medium">Llene este campo</span>
+                            </p>
+                        </div>
+                        <!-- Modelo -->
+                        <div class="relative mb-1" [ngClass]="{'mb-2': isFieldInvalid('modelo')}">
+                            <input type="text" id="modelo" formControlName="modelo"
+                                class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none focus:outline-none focus:ring-0 peer"
+                                [ngClass]="{'border-gray-300': !isFieldInvalid('modelo'), 'border-red-600': isFieldInvalid('modelo')}"
+                                placeholder=" " required>
+                            <label for="modelo"
+                                class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Modelo</label>
+                            <p *ngIf="isFieldInvalid('modelo')" class="mt-0 text-xs text-red-600 dark:text-red-400">
+                                <span class="font-medium">Llene este campo</span>
+                            </p>
+                        </div>
+                        <!-- Marca -->
+                        <div class="relative mb-1" [ngClass]="{'mb-2': isFieldInvalid('marca')}">
+                            <select id="marca" formControlName="marca"
+                                class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none focus:outline-none focus:ring-0 peer"
+                                [ngClass]="{'border-gray-300': !isFieldInvalid('marca'), 'border-red-600': isFieldInvalid('marca')}"
+                                required>
+                                <option value="" disabled selected>Seleccionar Marca</option>
+                                <option *ngFor="let marca of predefinedMarcas" [value]="marca.value">{{ marca.name }}
+                                </option>
+                            </select>
+                            <label for="marca"
+                                class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Marca</label>
+                            <p *ngIf="isFieldInvalid('marca')" class="mt-0 text-xs text-red-600 dark:text-red-400">
+                                <span class="font-medium">Llene este campo</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Descripción -->
+            <div class="relative mb-1 mt-3 md:col-span-2" [ngClass]="{'mb-2': isFieldInvalid('descripcion')}">
+                <textarea id="descripcion" formControlName="descripcion" rows="2"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none focus:outline-none focus:ring-0 peer"
+                    [ngClass]="{'border-gray-300': !isFieldInvalid('descripcion'), 'border-red-600': isFieldInvalid('descripcion')}"
+                    placeholder=" " required></textarea>
+                <label for="descripcion"
+                    class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">Descripción</label>
+                <p *ngIf="isFieldInvalid('descripcion')" class="mt-0 text-xs text-red-600 dark:text-red-400">
+                    <span class="font-medium">Llene este campo</span>
+                </p>
+            </div>
+            <!-- Imágenes -->
+
+            <div class="relative mb-2 mt-3 md:col-span-2">
+                <div formArrayName="imagenes">
+                    <div *ngFor="let imagenCtrl of imagenes.controls; let i = index" class="flex items-center mb-2">
+                        <input [formControlName]="i" type="text"
+                            class="block px-2 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border appearance-none focus:outline-none focus:ring-0 peer"
+                            placeholder="URL de imagen">
+                        <button type="button" (click)="addImagen()"
+                            class=" bg-green-600 text-white px-2 py-2 ml-2.5 rounded flex items-center justify-center">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button type="button" (click)="removeImagen(i)"
+                            class="bg-red-600 text-white px-2 py-2 ml-2.5 rounded flex items-center justify-center">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="flex items-center justify-between mt-4">
+                <button type="submit" [disabled]="productoForm.invalid"
+                    [ngClass]="{'bg-gray-400 cursor-not-allowed': productoForm.invalid, 'bg-green-600 hover:bg-green-700 cursor-pointer': !productoForm.invalid}"
+                    class="text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Guardar Producto
+                </button>
+                <button type="button" (click)="closeModal.emit()"
+                    class="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Cancelar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

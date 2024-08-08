@@ -1,0 +1,28 @@
+/* Asegúrate de que la clase .typed-wrapper tenga un ancho suficiente para contener la palabra completa */
+.typed-wrapper {
+    display: inline-block;
+    width: auto;
+    position: relative;
+}
+
+/* Ajustar el span.typed para asegurarse de que el efecto de texto gradiente no se recorte */
+.typed {
+    display: inline;
+    background: linear-gradient(to right, #38bdf8, #6366f1, #8b5cf6); /* Gradiente personalizado */
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent !important;
+    font-weight: bolder;
+}
+
+
+
+.img-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+}

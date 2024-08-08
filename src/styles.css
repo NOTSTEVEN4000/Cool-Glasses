@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body.dark {
+    @apply bg-gray-900 text-white;
+};
+
+
+
+/*Animacion de transiciones sobre paginas, textos*/
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.fadeIn {
+    animation-name: fadeIn;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to { opacity: 1;}
+}
+.swal-button--confirm {
+    background-color: #4CAF50 !important; /* Cambia este color según tus necesidades */
+    color: white !important;
+  }
+  

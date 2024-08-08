@@ -1,0 +1,234 @@
+<!-- Upper Navbar -->
+<!------NAVBAR INICIO----->
+<nav class="bg-slate-600 dark:bg-gray-950 fixed w-full z-20 top-0 start-0 dark:border-gray-950 text-white navbar-upper"
+    [ngClass]="{'navbar-upper-hidden': isScrolled}">
+    <div class="max-w-screen-xxl flex flex-wrap items-center justify-between mx-auto p-1.5 px-5">
+        <a (click)="redirectAndScrollToTop('/inicio')" routerLink="/inicio"
+            class="flex items-center space-x-3 rtl:space-x-reverse">
+            <img src="https://notsteven4000.github.io/CoolGlassesWeb/img/logo.png" alt="" class="w-12 h-12">
+            <span class="text-3xl ml-3" id="coolGlassesShop">
+                <span class="font-bold hidden md:inline">Cool</span><span class="font-semibold"> Glasses</span>
+            </span>
+        </a>
+        <div class="flex md:order-2">
+            <button type="button" aria-controls="navbar-search" aria-expanded="false"
+                class="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-950 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-950 rounded-lg text-sm p-2.5"
+                (click)="toggleMenu()">
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M1 1h18M1 7h18M1 13h18" />
+                </svg>
+                <span class="sr-only">Toggle navigation</span>
+            </button>
+            <!----Buscador con autocompletado---->
+            <!-- Button para pantallas pequeñas -->
+            <div class="md:hidden">
+                <button (click)="openSearchModal()" class="p-2 text-gray-500 dark:text-gray-400">
+                    <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Fullscreen search modal para pantallas pequeñas -->
+            <div *ngIf="isSearchModalOpen"
+                class="fixed inset-0 z-50 bg-gray-900 bg-opacity-75 flex items-center justify-center">
+                <div class="bg-white w-full h-full flex flex-col">
+                    <div class="p-4 border-b">
+                        <button (click)="closeSearchModal()" class="text-gray-500">
+                            <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="p-4 flex-grow">
+                        <input type="text" (keyup)="onSearch($event)" (keypress)="onEnter($event)"
+                            class="w-full p-2 text-md text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Buscar en la página">
+                        <div *ngIf="productos.length > 0" class="mt-4 max-h-full overflow-y-auto">
+                            <ul>
+                                <li *ngFor="let producto of productos"
+                                    (click)="rutaScroll('/producto', producto.codUnico)"
+                                    class="flex items-center cursor-pointer hover:bg-gray-100 p-2">
+                                    <img [src]="producto.imagenes[0]" alt="{{producto.nombre}}"
+                                        class="w-20 h-12 rounded mr-2">
+                                    <div>
+                                        <p class="text-md font-semibold text-gray-900">{{producto.nombre}}</p>
+                                        <p class="text-sm font-light text-gray-700">Categoria: {{producto.categoria}}
+                                        </p>
+                                        <p class="text-sm font-light text-gray-700">Género: {{producto.genero}}</p>
+                                        <p class="text-sm text-gray-900 ">${{ producto.precio }}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a (click)="redirectAndScrollToTop('/favorito')" type="button"
+                class="cursor-pointer md:ml-2 text-white  hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg 
+                            text-sm md:px-2 py-2 px-2 text-center dark:bg-black dark:hover:bg-gray-700 dark:focus:ring-blue-800">
+                <i class="fa-solid fa-heart fa-xl" style="color: #ff0000;"></i>
+                <p style="font-size: 15px;" class="hidden md:block">Favorito</p>
+            </a>
+            <a (click)="openCartSidebar()" type="button"
+                class="cursor-pointer md:ml-2 text-white  hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 
+                            font-medium rounded-lg text-sm px-2 md:px-2 py-2 text-center dark:bg-black dark:hover:bg-gray-700 dark:focus:ring-blue-800">
+                <i class="fa-solid fa-cart-shopping fa-xl"></i>
+                <p style="font-size: 15px;" class="hidden md:block">Carrito</p>
+            </a>
+            <!-- Botón Acceso visible solo para el administrador -->
+            <a *ngIf="userRole === 'administrador'" (click)="redirectAndScrollToTop('/dashboard/inicio')" type="button"
+                class="cursor-pointer hidden md:block md:ml-2 text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm md:px-2 py-2 text-center dark:bg-black dark:hover:bg-gray-700 dark:focus:ring-blue-800">
+                <i class="fa-solid fa-user fa-xl"></i>
+                <p style="font-size: 15px;" class="hidden md:block">Acceso</p>
+            </a>
+            <!-- Botón Cerrar Sesión visible solo para el cliente -->
+            <a *ngIf="userRole === 'cliente'" (click)="logout()" type="button"
+                class="cursor-pointer hidden md:block md:ml-2 text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm md:px-2 py-2 text-center dark:bg-black dark:hover:bg-gray-700 dark:focus:ring-blue-800">
+                <i class="fa-solid fa-arrow-right-from-bracket fa-xl"></i>
+                <p style="font-size: 15px;" class="hidden md:block">Cerrar Sesión</p>
+            </a>
+            <!-- Botón Login visible cuando el usuario no esté registrado -->
+            <a *ngIf="!userRole" (click)="redirectAndScrollToTop('/auth/login')" type="button"
+                class="cursor-pointer hidden md:block md:ml-2 text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm md:px-2 py-2 text-center dark:bg-black dark:hover:bg-gray-700 dark:focus:ring-blue-800">
+                <i class="fa-solid fa-user fa-xl"></i>
+                <p style="font-size: 15px;" class="hidden md:block">Login</p>
+            </a>
+        </div>
+        <div [ngClass]="{'hidden': isMenuCollapsed, 'block': !isMenuCollapsed}"
+            class="items-center justify-between w-full xl:flex md:w-auto md:order-1 ">
+            <button *ngIf="!userRole" routerLink="/auth/login" (click)="redirectAndScrollToTop('/auth/login')"
+                class="md:hidden flex gap-3 mt-5 cursor-pointer text-white font-semibold bg-gradient-to-r from-gray-800 to-black px-7 py-3 rounded-full border border-gray-600 hover:scale-105 duration-200 hover:text-gray-500 hover:border-gray-800 hover:from-black hover:to-gray-900">
+                <i class="fa-solid fa-user fa-xl mt-2.5"></i>
+                Iniciar Sesión
+            </button>
+
+            <!-- Botón Acceso visible solo para el administrador -->
+            <button *ngIf="userRole === 'administrador'" (click)="redirectAndScrollToTop('/dashboard/inicio')"
+                class="md:hidden flex gap-3 mt-5 cursor-pointer text-white font-semibold bg-gradient-to-r from-gray-800 to-black px-7 py-3 rounded-full border border-gray-600 hover:scale-105 duration-200 hover:text-gray-500 hover:border-gray-800 hover:from-black hover:to-gray-900">
+                <i class="fa-solid fa-user fa-xl mt-2.5"></i>
+                Dashboard
+            </button>
+
+            <button *ngIf="userRole === 'cliente'" (click)="logout()"
+            class="md:hidden flex gap-3 mt-5 cursor-pointer text-white font-semibold bg-gradient-to-r from-gray-800 to-black px-7 py-3 rounded-full border border-gray-600 hover:scale-105 duration-200 hover:text-gray-500 hover:border-gray-800 hover:from-black hover:to-gray-900">
+            <i class="fa-solid fa-arrow-right-from-bracket fa-xl mt-2.5"></i>
+                Cerrar Sesión
+            </button>
+
+         <!-- Botón Cerrar Sesión visible solo para el cliente -->
+
+            <ul class="font-medium md:hidden flex flex-col p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-3 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-green-50"
+                style="background-color: black;">
+                <li>
+                    <a href="/"
+                        class="tracking-wide cursor-pointer px-3 py-2 rounded font-semibold text-lg transition hover:text-white hover:bg-red-500">Inicio
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/hombres" (click)="closeNovedades()" (click)="redirectAndScrollToTop('/hombres')"
+                        class="tracking-wide cursor-pointer px-3 py-2 rounded font-semibold text-lg transition hover:text-white hover:bg-pink-600">Hombres
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/mujeres" (click)="closeNovedades()" (click)="redirectAndScrollToTop('/mujeres')"
+                        class="tracking-wide cursor-pointer px-3 py-2 rounded font-semibold text-lg transition hover:text-white hover:bg-pink-600">Mujeres</a>
+                </li>
+                <li>
+                    <a routerLink="/ninos" (click)="closeNovedades()" (click)="redirectAndScrollToTop('/ninos')"
+                        class="tracking-wide cursor-pointer px-3 py-2 rounded font-semibold text-lg transition hover:text-white hover:bg-pink-600">Niños</a>
+                </li>
+                <li>
+                    <a (click)="toggleNovedades()"
+                        class="tracking-wide cursor-pointer px-3 py-2 rounded font-semibold text-lg transition hover:text-white hover:bg-pink-600">Novedades
+                        <i class="fa-solid fa-chevron-down fa-xs"></i>
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/acercade" (click)="closeNovedades()" (click)="redirectAndScrollToTop('/acercade')"
+                        class="tracking-wide cursor-pointer px-3 py-2 rounded font-semibold text-lg transition hover:text-white hover:bg-pink-600">Acerca
+                        de</a>
+                </li>
+                <li *ngIf="userRole === 'cliente'">
+                    <a routerLink="/comprobante" (click)="closeNovedades()"
+                        (click)="redirectAndScrollToTop('/comprobante')"
+                        class="tracking-wide cursor-pointer px-3 py-2 rounded font-semibold text-lg transition hover:text-white hover:bg-pink-600">Comprobantes</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Lower Navbar -->
+<nav class="bg-slate-800 fixed w-full z-20 top-12 start-0 text-white hidden xl:flex border-teal-400"
+    [ngClass]="{'fixed-top': isScrolled, 'mt-5': !isScrolled}">
+    <div class="max-w-screen-2xl mx-auto p-5 flex justify-between items-center">
+        <ul class="flex justify-center ml-40">
+            <li>
+                <a href="/" 
+                    class="tracking-wide cursor-pointer px-5 py-2 rounded font-bold font-mono text-lg transition hover:text-white hover:bg-red-500">Inicio
+                </a>
+            </li>
+            <li>
+                <a routerLink="/hombres" (click)="closeNovedades()" (click)="redirectAndScrollToTop('/hombres')"
+                    class="tracking-wide cursor-pointer px-5 py-2 rounded font-bold font-mono text-lg transition hover:text-white hover:bg-pink-600">Hombres
+                </a>
+            </li>
+            <li>
+                <a routerLink="/mujeres" (click)="closeNovedades()" (click)="redirectAndScrollToTop('/mujeres')"
+                    class="tracking-wide cursor-pointer px-5 py-2 rounded font-bold font-mono text-lg transition hover:text-white hover:bg-pink-600">Mujeres</a>
+            </li>
+            <li>
+                <a routerLink="/ninos" (click)="closeNovedades()" (click)="redirectAndScrollToTop('/ninos')"
+                    class="tracking-wide cursor-pointer px-5 py-2 rounded font-bold font-mono text-lg transition hover:text-white hover:bg-pink-600">Niños</a>
+            </li>
+            <li>
+                <a routerLink="/acercade" (click)="closeNovedades()" (click)="redirectAndScrollToTop('/acercade')"
+                    class="tracking-wide cursor-pointer px-5 py-2 rounded font-bold font-mono text-lg transition hover:text-white hover:bg-pink-600">Acerca
+                    de</a>
+            </li>
+            <li *ngIf="userRole === 'cliente'">
+                <a routerLink="/comprobante" (click)="closeNovedades()" (click)="redirectAndScrollToTop('/comprobante')"
+                    class="tracking-wide cursor-pointer px-3 py-2 rounded font-bold font-mono text-lg transition hover:text-white hover:bg-pink-600">Comprobantes</a>
+            </li>
+        </ul>
+    </div>
+    <!-- Search bar para pantalla grande -->
+    <div class="relative hidden md:block pt-2.5 mr-4">
+        <button class="absolute inset-y-0 start-0 flex items-center ps-4">
+            <svg class=" w-4 h-4 text-gray-600 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+            </svg>
+        </button>
+        <input type="text" id="search-navbar" (keyup)="onSearch($event)" (keypress)="onEnter($event)"
+            class="block w-full p-2 ps-11 text-black text-md border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500
+             dark:bg-gray-100 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar en la página">
+        <div *ngIf="productos.length > 0"
+            class="absolute z-10 bg-white border border-gray-300 rounded-lg shadow-md mt-1 max-h-96 overflow-y-auto w-full lg:w-96"
+            [ngClass]="{'-left-[140px]': !isMobile}">
+            <ul>
+                <li *ngFor="let producto of productos" (click)="rutaScroll('/producto', producto.codUnico)"
+                    class="flex items-center cursor-pointer hover:bg-gray-100 p-2">
+                    <img [src]="producto.imagenes[0]" alt="{{producto.nombre}}" class="w-20 h-12 rounded mr-2">
+                    <div>
+                        <p class="text-md font-semibold text-gray-900">{{producto.nombre}}</p>
+                        <p class="text-sm font-light text-gray-700">Categoria: {{producto.categoria}}</p>
+                        <p class="text-sm font-light text-gray-700">Género: {{producto.genero}}</p>
+                        <p class="text-sm text-gray-900 ">${{ producto.precio }}</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<app-carrito [isOpen]="isCartSidebarOpen" (closeSidebarEvent)="handleSidebarClose()"></app-carrito>

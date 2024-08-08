@@ -1,0 +1,68 @@
+<app-nav-bar></app-nav-bar>
+<div class="container mx-auto px-4 py-auto mt-40" style="margin-bottom: 30%;">
+  <h2 class="text-2xl font-bold mb-4">Resultados de búsqueda para "{{ query }}"</h2>
+  <div *ngIf="productos.length === 0" class="text-gray-500">
+    No se encontraron productos para la búsqueda "{{ query }}".
+  </div>
+
+  <!---- Cartas de productos ---->
+  <div class="lg:col-span-3 cursor-pointer">
+    <ul *ngIf="productos.length > 0" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 justify-center">
+      <div *ngFor="let producto of productos let i = index"
+        class="relative m-2 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a (click)="redirectAndScrollToTop('/producto/hombres', producto.codUnico)"
+          class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl">
+          <img class="h-full w-full object-contain" [src]="producto.imagenes[0]" alt="product image" />
+          <span
+            class="absolute top-0 left-0 rounded-full bg-black px-2 text-center text-sm font-medium text-white">{{producto.descuento}}
+            % OFF</span>
+        </a>
+        <button aria-label="favorite"
+        class="top-1 right-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 absolute p-1.5 bg-gray-800 dark:bg-black text-white hover:text-red-500"
+        (click)="agregarAFavoritos(producto)">
+        <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                fill="currentColor" />
+        </svg>
+    </button>
+
+        <div class="mt-4 px-5 pb-5">
+          <a>
+            <h5 class="text-xl tracking-tight text-slate-900">{{producto.nombre}}</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span *ngIf="producto.descuento !== 0"
+                class="text-3xl font-bold text-slate-900">${{calcularPD(producto.precio,
+                producto.descuento)}}</span>
+              <span *ngIf="producto.descuento <=0" class="text-3xl font-bold text-slate-900">${{producto.precio}}</span>
+              <span *ngIf="producto.descuento !== 0"
+                class="text-sm font-bold text-red-500 line-through ml-2">${{producto.precio}}</span>
+            </p>
+            <ng-container *ngFor="let color of predefinedColors">
+              <button *ngIf="color.name.toLowerCase() === producto!.caracteristicas['color'].toLowerCase()"
+                [ngStyle]="{'background-color': color.rgb}"
+                class="w-8 h-8 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"></button>
+            </ng-container>
+          </div>
+
+          <button *ngIf="producto.stock >0" class="CartBtn flex items-center justify-center"
+            (click)="agregarAlCarrito(producto)">
+            <span class="IconContainer">
+                <i class="cart fa-solid fa-cart-shopping" style="color: white;"></i>
+            </span>
+            <p class="text">Añadir al carrito</p>
+
+        </button>
+        <button *ngIf="producto.stock === 0" class="CartBtnF flex items-center justify-center">
+            <p class="text">Fuera de Stock</p>
+        </button>
+        </div>
+      </div>
+    </ul>
+  </div>
+</div>
+
+<app-footer></app-footer>

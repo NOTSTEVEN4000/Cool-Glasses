@@ -1,0 +1,96 @@
+<div class="relative z-30" aria-labelledby="slide-over-title" role="dialog" aria-modal="true" *ngIf="isOpen">
+  <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+  <div class="fixed inset-0 overflow-hidden">
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+        <div class="pointer-events-auto w-screen max-w-md">
+          <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+            <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
+              <div class="flex items-start justify-between">
+                <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Tu Carrito</h2>
+                <div class="ml-3 flex h-7 items-center">
+                  <button type="button" (click)="closeSidebar()" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500">
+                    <span class="absolute -inset-0.5"></span>
+                    <span class="sr-only">Close panel</span>
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <!-- Cart items and total -->
+              <div class="mt-8">
+                <div class="flow-root">
+                  <ul role="list" class="-my-6 divide-y divide-gray-200">
+                    <li *ngFor="let item of cartItems; let i = index" class="flex py-6">
+                      <div class="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                        <img [src]="item.image" alt="Product" class="h-full w-full object-contain">
+                        <span *ngIf="item.descuento !== 0" class="absolute top-0 left-0 bg-black text-white text-xs font-bold px-2 py-1 rounded"> {{ item.descuento }}% OFF</span>
+                      </div>
+                      <div class="ml-4 flex flex-1 flex-col">
+                        <div>
+                          <div class="flex justify-between text-base font-medium text-gray-900">
+                            <h3><a href="#">{{ item.name }}</a></h3>
+                            <div class="flex items-center">
+                              <p class="ml-4">${{ item.price }}</p>
+                              <span *ngIf="item.descuento !== 0" class="ml-4 text-red-800 line-through" alt="precio_base_producto">${{ item?.priceoriginal }}</span>
+                            </div>
+                          </div>
+                          <p class="mt-1 text-sm text-gray-500">Cantidad: {{ item.quantity }}</p>
+                          <p class="mt-1 text-sm text-gray-500">Stock disponible: {{ item.stock }}</p> <!-- Add stock available here -->
+                        </div>
+                        <div class="flex flex-1 items-end justify-between text-sm mt-4">
+                          <div class="flex items-center space-x-2">
+                            <button type="button" (click)="decreaseQuantity(i)" class="px-2 py-1 bg-gray-200 rounded">-</button>
+                            <span>{{ item.quantity }}</span>
+                            <button type="button" (click)="increaseQuantity(i)" class="px-2 py-1 bg-gray-200 rounded">+</button>
+                          </div>
+                          <div class="flex space-x-4">
+                            <button *ngIf="item.quantityChanged" type="button" (click)="updateQuantity(i)" class="font-medium text-indigo-600 hover:text-indigo-500">Actualizar</button>
+                            <button type="button" (click)="removeItem(i)" class="font-medium text-indigo-600 hover:text-indigo-500">Remover</button>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
+              <div class="flex justify-between text-base font-medium text-gray-900">
+                <p>Subtotal</p>
+                <p>${{ subtotaloriginal.toFixed(2) }}</p>
+              </div>
+              <div class="flex justify-between text-base font-medium text-gray-900">
+                <p>Descuento</p>
+                <p>-${{ descuento.toFixed(2) }}</p>
+              </div>
+              <div class="flex justify-between text-base font-medium text-gray-900">
+                <p>IVA (15%)</p>
+                <p>${{ iva.toFixed(2) }}</p>
+              </div>
+              <div class="flex justify-between text-base font-medium text-gray-900">
+                <p>Total</p>
+                <p>${{ total.toFixed(2) }}</p>
+              </div>
+              <p class="mt-0.5 text-sm text-gray-500">Envío e impuestos calculados al finalizar la compra.</p>
+              <div class="mt-6">
+                <a (click)="completePurchase()" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Comprar</a>
+              </div>
+              <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
+                <p>
+                  o
+                  <button (click)="redirectAndScrollToTop('/inicio')" type="button" class="font-medium text-indigo-600 hover:text-indigo-500">
+                    Continuar comprando
+                    <span aria-hidden="true"> &rarr;</span>
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

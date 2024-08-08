@@ -1,0 +1,56 @@
+<section class="flex justify-center items-center h-screen">
+  <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 shadow-2xl">
+    <div class="mx-auto max-w-lg">
+      <h1 class="text-center text-2xl font-bold text-indigo-800 sm:text-3xl">Cool Glasses</h1>
+      <p class="mx-auto mt-4 max-w-md text-center text-gray-500">
+        Bienvenido a nuestro sitio web, por favor inicia sesión o registrate
+      </p>
+      <div>
+        <div class="mb-0 mt-3 space-y-4 rounded-lg p-4 sm:p-6 lg:p-8">
+          <p class="text-center text-lg font-medium">Inicia Sesión en su cuenta</p>
+          <form (ngSubmit)="login()">
+            <div class="mb-3">
+              <label for="email" class="sr-only">Correo Electrónico</label>
+              <div class="relative">
+                <input type="email" id="email" [(ngModel)]="email" name="email"
+                  class="w-full rounded-lg border-gray-200 p-4 pe-12 shadow-sm text-md"
+                  placeholder="Ingrese Correo registrado" required />
+              </div>
+            </div>
+            <div>
+              <label for="password" class="sr-only">Contraseña</label>
+              <div class="relative">
+                <input id="password" [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" name="password"
+                  class="w-full rounded-lg border-gray-200 p-4 pe-12 text-md shadow-sm" placeholder="Ingrese contraseña"
+                  required />
+                <button type="button" (click)="togglePasswordVisibility()"
+                  class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                  <i *ngIf="showPassword" class="fas fa-eye-slash"></i>
+                  <i *ngIf="!showPassword" class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+            <button type="submit"
+              class="block w-full rounded-lg bg-amber-300 px-5 py-3 text-sm font-medium text-black mt-5">
+              Acceder
+            </button>
+          </form>
+
+
+          <p class="text-sm  text-end">
+            <a class="underline text-blue-600 hover:text-blue-400" routerLink="/auth/recuperar">¿Olvidaste tu contraseña?</a>
+          </p>
+
+          <p class="text-center text-sm text-gray-500">
+            Sin cuenta?
+            <a class="underline" routerLink="/auth/registro">Registrate</a>
+          </p>
+          <p class="text-center text-sm text-gray-500">
+            Volver al sitio web
+            <a class="underline" routerLink="/inicio">Dale aquí</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,29 @@
+<section class="text-gray-600 body-font">
+    <div class="container mx-auto flex flex-wrap">
+        <div class="flex flex-wrap md:-m-2 -m-1">
+            <div class="flex flex-wrap w-1/2">
+                <div class="md:p-2 p-1 w-full">
+                    <img *ngIf="imagenes[0]" [src]="imagenes[0]" alt="gallery"
+                        class="w-full object-cover h-full object-center block">
+                </div>
+                <div class="md:p-2 p-1 w-1/2" *ngIf="imagenes[1]">
+                    <img [src]="imagenes[1]" alt="gallery" class="w-full object-cover h-full object-center block">
+                </div>
+                <div class="md:p-2 p-1 w-1/2" *ngIf="imagenes[2]">
+                    <img [src]="imagenes[2]" alt="gallery" class="w-full h-full object-cover object-center block">
+                </div>
+            </div>
+            <div class="flex flex-wrap w-1/2">
+                <div class="md:p-2 p-1 w-full" *ngIf="imagenes[3]">
+                    <img [src]="imagenes[3]" alt="gallery" class="w-full h-full object-cover object-center block">
+                </div>
+                <div class="md:p-2 p-1 w-1/2" *ngIf="imagenes[4]">
+                    <img [src]="imagenes[4]" alt="gallery" class="w-full object-cover h-full object-center block">
+                </div>
+                <div class="md:p-2 p-1 w-1/2" *ngIf="imagenes[5]">
+                    <img [src]="imagenes[5]" alt="gallery" class="w-full object-cover h-full object-center block">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

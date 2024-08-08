@@ -1,0 +1,139 @@
+<div class="table-container">
+    <div class="p-4 border-gray-300 rounded-3xl dark:border-gray-700 mt-14">
+      <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 
+          lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700 rounded-t-3xl">
+        <div class="w-full mb-1">
+          <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-800">
+            <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Listado de Usuarios registrados</h1>
+            <div class="relative mt-3 w-64 md:w-72">
+              <input type="text" id="search" name="search" [(ngModel)]="searchTerm" (ngModelChange)="filterUsers()"
+                class="block w-full pl-10 pr-3 py-2 rounded-full bg-gray-700 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Buscador de usuarios">
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg class="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd"
+                    d="M12.9 14.32a8 8 0 111.414-1.414l5.385 5.384a1 1 0 11-1.414 1.414l-5.385-5.384zM14 8a6 6 0 11-12 0 6 6 0 0112 0z"
+                    clip-rule="evenodd" />
+                </svg>
+              </div>
+              <ul *ngIf="searchTerm && autocompleteSuggestions.length > 0" class="absolute z-10 bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                <li *ngFor="let suggestion of autocompleteSuggestions" (click)="selectSuggestion(suggestion)"
+                  class="text-gray-900 cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-gray-200">
+                  {{ suggestion }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <div class="overflow-x-auto">
+          <div class="inline-block min-w-full align-middle">
+            <div class="overflow-hidden shadow">
+              <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
+                <thead class="bg-gray-100 dark:bg-gray-700 ">
+                  <tr>
+                    <th scope="col"
+                      class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                      #
+                    </th>
+                    <th scope="col"
+                      class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                      Nombre
+                    </th>
+                    <th scope="col"
+                      class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                      Apellido
+                    </th>
+                    <th scope="col"
+                      class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                      Correo
+                    </th>
+                    <th scope="col"
+                      class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                      Teléfono
+                    </th>
+                    <th scope="col"
+                      class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                      Dirección
+                    </th>
+                    <th scope="col"
+                      class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                      Ciudad
+                    </th>
+                    <th scope="col"
+                      class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                      Provincia
+                    </th>
+                    <th scope="col"
+                      class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                      País
+                    </th>
+                    <th scope="col"
+                      class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                      Rol
+                    </th>
+                    <th scope="col"
+                      class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 border-r">
+                      Estado
+                    </th>
+                    <th scope="col"
+                      class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+                      Acciones
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="listaUsuarios.length === 0"
+                    class="border-b bg-gray-300 dark:bg-gray-50 dark:border-gray-700 text-center text-red-500 font-semibold">
+                    <td colspan="12" class="px-6 py-4">Usuario no encontrado</td>
+                  </tr>
+                  <tr *ngFor="let usuario of listaUsuarios; let i = index"
+                    class="bg-white border-b dark:bg-gray-50 dark:border-gray-700 text-center text-black font-medium">
+                    <th scope="row" class="px-3 py-4 font-medium">{{ i + 1 }}</th>
+                    <td class="px-6 py-4">{{usuario.nombre}}</td>
+                    <td class="px-6 py-4">{{usuario.apellido}}</td>
+                    <td class="px-6 py-4">{{usuario.correo}}</td>
+                    <td class="px-6 py-4">{{usuario.telefono}}</td>
+                    <td class="px-6 py-4">{{usuario.direccion}}</td>
+                    <td class="px-6 py-4">{{usuario.ciudad}}</td>
+                    <td class="px-6 py-4">{{usuario.provincia}}</td>
+                    <td class="px-6 py-4">{{usuario.pais}}</td>
+                    <td class="px-6 py-4">{{usuario.rol}}</td>
+                    <td class="px-6 py-4">
+                        <span *ngIf="usuario.estado === 'activo'" class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                          {{usuario.estado}}
+                        </span>
+                        <span *ngIf="usuario.estado === 'inactivo'" class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+                          {{usuario.estado}}
+                        </span>
+                      </td>
+                    <td class="text-center">
+                      <div class="btn-group p-1" role="group">
+                        <button (click)="openModificarModal()" (click)="enviardata(usuario)"
+                          class="bg-blue-300 hover:bg-blue-200 text-white font-bold py-1 px-2 rounded-full me-2">
+                          <i class="fas fa-pencil-alt fa-lg" style="color: #0B1739;"></i>
+                        </button>
+                        <button (click)="eliminarUsuario(usuario.id!)"
+                          class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full">
+                          <i class="fas fa-trash fa-lg"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal de Registrar/Modificar usuario -->
+  <div *ngIf="showModal" class="modal-overlay">
+    <div class="modal-content">
+      <app-modificar-usuario *ngIf="!isRegistrar" (closeModal)="closeModal()"></app-modificar-usuario>
+    </div>
+  </div>
+  

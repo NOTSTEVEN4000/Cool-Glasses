@@ -1,0 +1,9 @@
+<div style="cursor: pointer;">
+  <a (click)="openRatingDialog()">
+    <img id="appear" class="logo"
+      src="assets\img\estrella.png"
+      alt="Icono" />
+  </a>
+</div>
+
+<app-rating-usuario *ngIf="showModal" (closeModal)="closeModal()"></app-rating-usuario>
